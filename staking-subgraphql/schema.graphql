@@ -1,0 +1,198 @@
+
+type EmergencyWithdrawn @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! 
+  amount: BigInt! 
+  penalty: BigInt!
+  timestamp: BigInt! 
+  newTotalStaked: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  staker: User! 
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!  previousOwner: Bytes!
+  newOwner: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Paused @entity(immutable: true) {
+  id: Bytes!
+  account: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RewardRateUpdated @entity(immutable: true) {
+  id: Bytes!
+  oldRate: BigInt! 
+  newRate: BigInt! 
+  timestamp: BigInt! 
+  totalStaked: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RewardsClaimed @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes!
+  amount: BigInt! 
+  timestamp: BigInt! 
+  newPendingRewards: BigInt! 
+  totalStaked: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  staker: User! 
+}
+
+type Staked @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! 
+  amount: BigInt!
+  timestamp: BigInt! 
+  newTotalStaked: BigInt!
+  currentRewardRate: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  staker: User! 
+  position: StakePosition!
+}
+
+type StakingInitialized @entity(immutable: true) {
+  id: Bytes!
+  stakingToken: Bytes! 
+  initialRewardRate: BigInt!
+  timestamp: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type StakingPaused @entity(immutable: true) {
+  id: Bytes!
+  timestamp: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type StakingUnpaused @entity(immutable: true) {
+  id: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TokenRecovered @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes!
+  amount: BigInt! 
+  timestamp: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Unpaused @entity(immutable: true) {
+  id: Bytes!
+  account: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Withdrawn @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! 
+  amount: BigInt! 
+  timestamp: BigInt! 
+  newTotalStaked: BigInt! 
+  currentRewardRate: BigInt! 
+  rewardsAccrued: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  staker: User! 
+  position: StakePosition! 
+}
+
+//lemme add
+
+
+type StakingContract @entity {
+  id: ID!
+  stakingToken: Bytes!
+  initialApr: BigInt!
+  minLockDuration: BigInt!
+  aprReductionPerThousand: BigInt!
+  emergencyWithdrawPenalty: BigInt!
+  totalStaked: BigInt!
+  currentRewardRate: BigInt!
+  lastUpdateTimestamp: BigInt!
+  totalUsers: BigInt!
+  paused: Boolean!
+  owner: Bytes!
+  totalRewardsDistributed: BigInt!
+}
+
+
+type User @entity {
+  id: Bytes! 
+  stakedAmount: BigInt!
+  totalStaked: BigInt! 
+  totalWithdrawn: BigInt!
+  totalRewardsClaimed: BigInt!
+  lastStakeTimestamp: BigInt!
+  stakeCount: BigInt!
+  withdrawalCount: BigInt!
+  rewardsClaimCount: BigInt!
+  pendingRewards: BigInt!
+  canWithdraw: Boolean!
+  stakingEvents: [Staked!]! @derivedFrom(field: "staker")
+  withdrawalEvents: [Withdrawn!]! @derivedFrom(field: "staker")
+  emergencyWithdrawalEvents: [EmergencyWithdrawn!]! @derivedFrom(field: "staker")
+  rewardClaimEvents: [RewardsClaimed!]! @derivedFrom(field: "staker")
+  firstStakedAt: BigInt!
+  lastActionAt: BigInt!
+}
+
+
+type StakePosition @entity {
+  id: ID!      # // user address + staking timestamp
+  user: User!
+  amount: BigInt!
+  timestamp: BigInt!
+  lastUpdateTimestamp: BigInt!
+  unlockTime: BigInt!
+  isActive: Boolean!
+  withdrawnAmount: BigInt!
+  rewardsClaimed: BigInt!
+  pendingRewards: BigInt!
+  stakeEvents: [Staked!]! @derivedFrom(field: "position")
+  withdrawEvents: [Withdrawn!]! @derivedFrom(field: "position")
+}
+
+
+type DailyStakingStat @entity {
+  id: ID! # timestamp truncated to day  date: String!
+  dailyStakedAmount: BigInt!
+  dailyWithdrawnAmount: BigInt!
+  dailyRewardsClaimed: BigInt!
+  uniqueStakers: BigInt!
+  uniqueWithdrawers: BigInt!
+  uniqueRewardClaimers: BigInt!
+  endOfDayTotalStaked: BigInt!
+  endOfDayRewardRate: BigInt!
+  stakingEvents: [Bytes!]!    # Array of event IDs
+  withdrawalEvents: [Bytes!]!  //
+  rewardClaimEvents: [Bytes!]! //
+}

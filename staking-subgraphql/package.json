@@ -1,0 +1,20 @@
+{
+  "name": "staking-subgraphql",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ staking-subgraphql",
+    "create-local": "graph create --node http://localhost:8020/ staking-subgraphql",
+    "remove-local": "graph remove --node http://localhost:8020/ staking-subgraphql",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 staking-subgraphql",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.93.1",
+    "@graphprotocol/graph-ts": "^0.36.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.6.0"
+  }
+}
