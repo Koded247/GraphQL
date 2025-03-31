@@ -175,7 +175,7 @@ export function handleWithdrawn(event: WithdrawnEvent): void {
 }
 
 export function handleRewardsClaimed(event: RewardsClaimedEvent): void {
-  // Create the event entity
+  // Create the event entity for this function 
   let entity = new RewardsClaimed(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   );
