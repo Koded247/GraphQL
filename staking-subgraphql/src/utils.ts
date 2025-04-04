@@ -87,7 +87,7 @@ export function getOrCreateDailyStakingStat(timestamp: BigInt): DailyStakingStat
   if (stats == null) {
     stats = new DailyStakingStat(dayId);
     const date = new Date(dayTimestamp * 1000);
-    stats.date = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    stats.date = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD for the date 
     stats.dailyStakedAmount = BIG_INT_ZERO;
     stats.dailyWithdrawnAmount = BIG_INT_ZERO;
     stats.dailyRewardsClaimed = BIG_INT_ZERO;
