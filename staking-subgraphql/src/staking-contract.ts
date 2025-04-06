@@ -296,7 +296,7 @@ export function handleRewardRateUpdated(event: RewardRateUpdatedEvent): void {
 }
 
 export function handleStakingInitialized(event: StakingInitializedEvent): void {
-  // Create the event entity
+  // Create the event entity for this function for the staking contract
   let entity = new StakingInitialized(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   );
