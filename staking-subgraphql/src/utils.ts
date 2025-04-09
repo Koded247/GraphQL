@@ -87,7 +87,7 @@ export function getOrCreateDailyStakingStat(timestamp: BigInt): DailyStakingStat
   if (stats == null) {
     stats = new DailyStakingStat(dayId);
     const date = new Date(dayTimestamp * 1000);
-    stats.date = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD for the date 
+    stats.date = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD for the date  time
     stats.dailyStakedAmount = BIG_INT_ZERO;
     stats.dailyWithdrawnAmount = BIG_INT_ZERO;
     stats.dailyRewardsClaimed = BIG_INT_ZERO;
@@ -107,7 +107,7 @@ export function getOrCreateDailyStakingStat(timestamp: BigInt): DailyStakingStat
 
 export function updateUserCanWithdraw(userAddress: Address, minLockDuration: BigInt): void {
   let user = getOrCreateUser(userAddress);
-  const currentTime = BigInt.fromI64(Date.now() / 1000); // Current timestamp in seconds
+  const currentTime = BigInt.fromI64(Date.now() / 1000);
   
   // Update canWithdraw flag based on lock duration
   if (user.lastStakeTimestamp.plus(minLockDuration).le(currentTime)) {
