@@ -167,7 +167,7 @@ type User @entity {
 
 
 type StakePosition @entity {
-  id: ID!      # // user address + staking timestamp
+  id: ID!      # // user address + staking time stamp o clock 
   user: User!
   amount: BigInt!
   timestamp: BigInt!
